@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof initSyllableGame === 'function') initSyllableGame();
     if (typeof initBuildWordGame === 'function') initBuildWordGame();
     if (typeof initLeaders === 'function') initLeaders();
-    if (typeof initUserPanel === 'function') initUserPanel();  // ДОБАВЛЕНО
+    if (typeof initUserPanel === 'function') initUserPanel();
     
     // Обработчики модальных окон
     const alphabetIcon = document.getElementById('alphabetIcon');
@@ -38,15 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeAuth = document.getElementById('closeAuthModal');
     const closeModal = document.getElementById('closeModal');
     
-    // Обработчик для иконки алфавита в основной игре
     if (alphabetIcon) alphabetIcon.addEventListener('click', () => openAlphabetModal());
-    
-    // Обработчик для иконки алфавита в игре "Угадай слог"
     if (syllableAlphabetIcon) syllableAlphabetIcon.addEventListener('click', () => openAlphabetModal());
-    
-    // Обработчик для иконки алфавита в игре "Составь слово"
     if (buildWordAlphabetIcon) buildWordAlphabetIcon.addEventListener('click', () => openAlphabetModal());
-    
     if (closeAuth) closeAuth.addEventListener('click', () => closeAuthModal());
     if (closeModal) closeModal.addEventListener('click', () => closeAlphabetModal());
     
@@ -63,13 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Вход
+    // Вход (АСИНХРОННЫЙ)
     const loginBtn = document.getElementById('loginBtn');
     if (loginBtn) {
-        loginBtn.addEventListener('click', () => {
+        loginBtn.addEventListener('click', async () => {
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
-            const result = loginUser(username, password);
+            const result = await loginUser(username, password);
             const msgDiv = document.getElementById('loginMessage');
             msgDiv.textContent = result.message;
             msgDiv.className = `auth-message ${result.success ? 'success' : 'error'}`;
@@ -89,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Регистрация
+    // Регистрация (АСИНХРОННАЯ)
     const registerBtn = document.getElementById('registerBtn');
     if (registerBtn) {
-        registerBtn.addEventListener('click', () => {
+        registerBtn.addEventListener('click', async () => {
             const username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value;
             const confirm = document.getElementById('regConfirmPassword').value;
@@ -104,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            const result = registerUser(username, password);
+            const result = await registerUser(username, password);
             const msgDiv = document.getElementById('registerMessage');
             msgDiv.textContent = result.message;
             msgDiv.className = `auth-message ${result.success ? 'success' : 'error'}`;
