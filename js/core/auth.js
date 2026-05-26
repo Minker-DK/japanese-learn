@@ -17,12 +17,15 @@ function saveCurrentUser(user) {
     }
 }
 
-function loginUser(username, password) {
-    return authenticateUser(username, password);
+// Функции обёртки для асинхронных вызовов
+async function loginUser(username, password) {
+    const result = await authenticateUser(username, password);
+    return result;
 }
 
-function registerUser(username, password, email = "") {
-    return createUser(username, password, email);
+async function registerUser(username, password, email = "") {
+    const result = await createUser(username, password, email);
+    return result;
 }
 
 function logoutUser() {
