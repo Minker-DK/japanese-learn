@@ -103,8 +103,11 @@ function checkAnswer(button, selectedMeaning) {
     if (currentWord.reading) showReading(currentWord.reading);
     button.classList.add(isCorrect ? 'correct' : 'wrong');
     
-    if (isCorrect && typeof addWordCoinsToCurrentUser === 'function') {
-        addWordCoinsToCurrentUser(WORD_REWARD);
+    // ИСПРАВЛЕНО: используем глобальную функцию
+    if (isCorrect && typeof window.addWordCoinsToCurrentUser === 'function') {
+        window.addWordCoinsToCurrentUser(1);
+    } else if (isCorrect) {
+        console.log("💰 Должно быть начислена 1 монета за слово, но функция не найдена");
     }
     
     if (!isCorrect) {
