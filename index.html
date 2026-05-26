@@ -15,16 +15,39 @@
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- Панель лидеров слева -->
-        <div class="leaders-panel">
-            <h3 class="leaders-title">🏆 Лидеры</h3>
-            <div class="leaders-tabs">
-                <button class="leaders-tab active" data-leader="words">📖 Слова</button>
-                <button class="leaders-tab" data-leader="syllables">🔤 Слоги</button>
-                <button class="leaders-tab" data-leader="buildword">📝 Составь</button>
+        <!-- Левая панель -->
+        <div class="left-panel">
+            <!-- Панель пользователя -->
+            <div class="user-panel">
+                <div class="user-panel-header">
+                    <span class="user-panel-icon">👤</span>
+                    <span class="user-panel-title">Аккаунт</span>
+                </div>
+                <div id="userPanelNotLogged" class="user-panel-content">
+                    <button id="panelLoginBtn" class="panel-login-btn">Войти / Регистрация</button>
+                </div>
+                <div id="userPanelLogged" class="user-panel-content" style="display: none;">
+                    <div class="panel-username" id="panelUsername">Minker</div>
+                    <div class="panel-coins">
+                        <div class="panel-coin-item">📖 <span id="panelWordCoins">0</span></div>
+                        <div class="panel-coin-item">🔤 <span id="panelSyllableCoins">0</span></div>
+                        <div class="panel-coin-item">📝 <span id="panelBuildCoins">0</span></div>
+                    </div>
+                    <button id="panelLogoutBtn" class="panel-logout-btn">Выйти</button>
+                </div>
             </div>
-            <div id="leadersList" class="leaders-list">
-                <div class="leader-item">Загрузка...</div>
+
+            <!-- Панель лидеров -->
+            <div class="leaders-panel">
+                <h3 class="leaders-title">🏆 Лидеры</h3>
+                <div class="leaders-tabs">
+                    <button class="leaders-tab active" data-leader="words">📖 Слова</button>
+                    <button class="leaders-tab" data-leader="syllables">🔤 Слоги</button>
+                    <button class="leaders-tab" data-leader="buildword">📝 Составь</button>
+                </div>
+                <div id="leadersList" class="leaders-list">
+                    <div class="leader-item">Загрузка...</div>
+                </div>
             </div>
         </div>
 
@@ -37,6 +60,8 @@
                 <button id="buildWordGameBtn" class="nav-btn active">📝 Составь слово</button>
             </div>
 
+            <!-- Иконки алфавита (только в контейнерах игр) -->
+            
             <!-- Меню выбора темы для основной игры -->
             <div class="container theme-menu" id="wordThemeMenu" style="display: none;">
                 <div class="theme-header">
@@ -53,12 +78,7 @@
             <!-- Основная игра (слова) -->
             <div class="container" id="gameContainer" style="display: none;">
                 <div class="coins-counter" id="coinsCounter"><span id="coinsAmount">0</span></div>
-                <div class="user-icon" id="userIcon"><span class="icon-text-user">👤</span></div>
                 <div class="alphabet-icon" id="alphabetIcon"><span class="icon-text">あ</span></div>
-                <div class="user-info" id="userInfo" style="display: none;">
-                    <span id="usernameDisplay"></span>
-                    <button id="logoutBtn" class="logout-btn">Выйти</button>
-                </div>
                 <div class="current-theme" id="currentTheme">🎲 Все слова</div>
                 <h1 id="japaneseWord">Загрузка...</h1>
                 <div id="reading" class="reading"></div>
@@ -99,12 +119,7 @@
             <!-- Игра "Угадай слог" -->
             <div class="container" id="syllableContainer" style="display: none;">
                 <div class="coins-counter" id="syllableCoinsCounter"><span id="syllableCoinsAmount">0</span></div>
-                <div class="user-icon" id="syllableUserIcon"><span class="icon-text-user">👤</span></div>
                 <div class="alphabet-icon" id="syllableAlphabetIcon"><span class="icon-text">あ</span></div>
-                <div class="user-info" id="syllableUserInfo" style="display: none;">
-                    <span id="syllableUsernameDisplay"></span>
-                    <button id="syllableLogoutBtn" class="logout-btn">Выйти</button>
-                </div>
                 <div class="current-theme" id="syllableModeDisplay">Все слоги</div>
                 <h1 id="syllableChar" class="syllable-char">あ</h1>
                 <hr class="divider">
@@ -119,12 +134,7 @@
             <!-- Игра "Составление слов" -->
             <div class="container" id="buildWordContainer" style="display: block;">
                 <div class="coins-counter" id="buildWordCoinsCounter"><span id="buildWordCoinsAmount">0</span></div>
-                <div class="user-icon" id="buildWordUserIcon"><span class="icon-text-user">👤</span></div>
                 <div class="alphabet-icon" id="buildWordAlphabetIcon"><span class="icon-text">あ</span></div>
-                <div class="user-info" id="buildWordUserInfo" style="display: none;">
-                    <span id="buildWordUsernameDisplay"></span>
-                    <button id="buildWordLogoutBtn" class="logout-btn">Выйти</button>
-                </div>
                 
                 <h2 class="buildword-question">Составьте слово:</h2>
                 <div class="buildword-russian" id="buildWordRussian">загрузка...</div>
@@ -191,6 +201,7 @@
     <script src="js/ui/themes.js"></script>
     <script src="js/ui/navigation.js"></script>
     <script src="js/ui/leaders.js"></script>
+    <script src="js/ui/userPanel.js"></script>
     
     <!-- Main -->
     <script src="js/main.js"></script>
