@@ -75,8 +75,11 @@ function checkSyllableAnswer(button, selectedRomanji) {
     syllableCanAnswer = false;
     button.classList.add(isCorrect ? 'correct' : 'wrong');
     
-    if (isCorrect && typeof addSyllableCoinsToCurrentUser === 'function') {
-        addSyllableCoinsToCurrentUser(SYLLABLE_REWARD);
+    // ИСПРАВЛЕНО: используем глобальную функцию
+    if (isCorrect && typeof window.addSyllableCoinsToCurrentUser === 'function') {
+        window.addSyllableCoinsToCurrentUser(1);
+    } else if (isCorrect) {
+        console.log("💰 Должно быть начислена 1 монета за слог, но функция не найдена");
     }
     
     if (!isCorrect) {
