@@ -2,9 +2,8 @@
 // ПАНЕЛЬ ЛИДЕРОВ
 // ============================================
 
-let currentLeaderType = 'words'; // words, syllables, buildword
+let currentLeaderType = 'words';
 
-// Получить топ пользователей по типу монет
 function getTopUsers(coinType) {
     const users = getAllUsers();
     const userList = [];
@@ -27,14 +26,10 @@ function getTopUsers(coinType) {
         });
     }
     
-    // Сортировка по убыванию монет
     userList.sort((a, b) => b.coins - a.coins);
-    
-    // Возвращаем топ-5
     return userList.slice(0, 5);
 }
 
-// Получить иконку медали для места
 function getMedalIcon(rank) {
     if (rank === 1) return '🥇';
     if (rank === 2) return '🥈';
@@ -42,7 +37,6 @@ function getMedalIcon(rank) {
     return '';
 }
 
-// Получить класс для места
 function getRankClass(rank) {
     if (rank === 1) return 'top-1';
     if (rank === 2) return 'top-2';
@@ -50,7 +44,6 @@ function getRankClass(rank) {
     return '';
 }
 
-// Отрисовать список лидеров
 function renderLeaders() {
     const leadersList = document.getElementById('leadersList');
     if (!leadersList) return;
@@ -84,11 +77,9 @@ function renderLeaders() {
     });
 }
 
-// Переключить тип лидеров
 function setLeaderType(type) {
     currentLeaderType = type;
     
-    // Обновляем активную вкладку
     document.querySelectorAll('.leaders-tab').forEach(tab => {
         if (tab.dataset.leader === type) {
             tab.classList.add('active');
@@ -100,7 +91,6 @@ function setLeaderType(type) {
     renderLeaders();
 }
 
-// Инициализация панели лидеров
 function initLeaders() {
     const tabs = document.querySelectorAll('.leaders-tab');
     
@@ -117,12 +107,10 @@ function initLeaders() {
     console.log("🏆 Leaders панель загружена");
 }
 
-// Обновить лидеров (вызывать при изменении монет)
 function refreshLeaders() {
     renderLeaders();
 }
 
-// Экспорт функций
 if (typeof module === 'undefined') {
     window.initLeaders = initLeaders;
     window.refreshLeaders = refreshLeaders;
