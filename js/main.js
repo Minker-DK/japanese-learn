@@ -29,15 +29,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof initSyllableGame === 'function') initSyllableGame();
     if (typeof initBuildWordGame === 'function') initBuildWordGame();
     if (typeof initLeaders === 'function') initLeaders();
+    if (typeof initUserPanel === 'function') initUserPanel();  // ДОБАВЛЕНО
     
     // Обработчики модальных окон
-    const userIcon = document.getElementById('userIcon');
     const alphabetIcon = document.getElementById('alphabetIcon');
+    const syllableAlphabetIcon = document.getElementById('syllableAlphabetIcon');
+    const buildWordAlphabetIcon = document.getElementById('buildWordAlphabetIcon');
     const closeAuth = document.getElementById('closeAuthModal');
     const closeModal = document.getElementById('closeModal');
     
-    if (userIcon) userIcon.addEventListener('click', () => openAuthModal());
+    // Обработчик для иконки алфавита в основной игре
     if (alphabetIcon) alphabetIcon.addEventListener('click', () => openAlphabetModal());
+    
+    // Обработчик для иконки алфавита в игре "Угадай слог"
+    if (syllableAlphabetIcon) syllableAlphabetIcon.addEventListener('click', () => openAlphabetModal());
+    
+    // Обработчик для иконки алфавита в игре "Составь слово"
+    if (buildWordAlphabetIcon) buildWordAlphabetIcon.addEventListener('click', () => openAlphabetModal());
+    
     if (closeAuth) closeAuth.addEventListener('click', () => closeAuthModal());
     if (closeModal) closeModal.addEventListener('click', () => closeAlphabetModal());
     
@@ -72,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (typeof updateAllCoinsDisplay === 'function') updateAllCoinsDisplay();
                     if (typeof updateBuildWordCoinsDisplay === 'function') updateBuildWordCoinsDisplay();
                     if (typeof refreshLeaders === 'function') refreshLeaders();
+                    if (typeof updateUserPanel === 'function') updateUserPanel();
                     document.getElementById('loginUsername').value = '';
                     document.getElementById('loginPassword').value = '';
                 }, 1500);
@@ -107,17 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (typeof refreshLeaders === 'function') refreshLeaders();
                 }, 1500);
             }
-        });
-    }
-    
-    // Выход
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            logoutUser();
-            if (typeof loadNewQuestion === 'function') loadNewQuestion();
-            if (typeof updateBuildWordCoinsDisplay === 'function') updateBuildWordCoinsDisplay();
-            if (typeof refreshLeaders === 'function') refreshLeaders();
         });
     }
     
