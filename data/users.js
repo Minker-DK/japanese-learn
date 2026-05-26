@@ -1,72 +1,88 @@
 // ============================================
-// БАЗА ДАННЫХ ПОЛЬЗОВАТЕЛЕЙ (ОБЛАЧНАЯ)
+// БАЗА ДАННЫХ ПОЛЬЗОВАТЕЛЕЙ (ЛОКАЛЬНАЯ)
 // ============================================
 
-let CLOUD_USERS_CACHE = null;
+const DEFAULT_USERS = {
+    "Minker": {
+        username: "Minker",
+        password: "minker123",
+        wordCoins: 157,
+        syllableCoins: 241,
+        buildWordCoins: 21,
+        createdAt: "2024-01-01T00:00:00.000Z",
+        role: "user"
+    },
+    "Tori": {
+        username: "Tori",
+        password: "tori123",
+        wordCoins: 2,
+        syllableCoins: 10,
+        buildWordCoins: 6,
+        createdAt: "2024-01-01T00:00:00.000Z",
+        role: "user"
+    }
+};
 
-// Инициализация базы (загружаем из облака)
-async function initUsersDatabase() {
-    console.log("🔄 Инициализация облачной базы пользователей...");
+const USERS_STORAGE_KEY = 'japanese_app_users';
+
+function initUsersDatabase() {
+    const existingUsers = localStorage.getItem(USERS_STORAGE_KEY);
+    if (!existingUsers) {
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(DEFAULT_USERS));
+        console.log("✅ База данных пользователей инициализирована");
+        return DEFAULT_USERS;
+    }
+    const users = JSON.parse(existingUsers);
+    let updated = false;
     
-    const cloudUsers = await loadUsersFromCloud();
-    
-    if (cloudUsers && Object.keys(cloudUsers).length > 0) {
-        CLOUD_USERS_CACHE = cloudUsers;
-        console.log("✅ Загружено пользователей из облака:", Object.keys(CLOUD_USERS_CACHE).length);
-        console.log("👥 Список пользователей:", Object.keys(CLOUD_USERS_CACHE));
-        return CLOUD_USERS_CACHE;
+    // Добавляем Minker если его нет
+    if (!users["Minker"]) {
+        users["Minker"] = JSON.parse(JSON.stringify(DEFAULT_USERS["Minker"]));
+        updated = true;
+        console.log("✅ Добавлен пользователь Minker");
     }
     
-    // Если облако не доступно, используем локальные данные
-    const localUsers = localStorage.getItem('japanese_users_local_backup');
-    if (localUsers) {
-        CLOUD_USERS_CACHE = JSON.parse(localUsers);
-        console.log("⚠️ Используем локальный бэкап");
-        return CLOUD_USERS_CACHE;
+    // Добавляем Tori если его нет
+    if (!users["Tori"]) {
+        users["Tori"] = JSON.parse(JSON.stringify(DEFAULT_USERS["Tori"]));
+        updated = true;
+        console.log("✅ Добавлен пользователь Tori");
     }
     
-    // Если ничего нет, создаём начальных пользователей
-    console.log("🆕 Создаём начальных пользователей");
-    CLOUD_USERS_CACHE = {
-        "Minker": {
-            username: "Minker",
-            password: "minker123",
-            wordCoins: 150,
-            syllableCoins: 80,
-            buildWordCoins: 45,
-            createdAt: new Date().toISOString(),
-            role: "user"
-        },
-        "Tori": {
-            username: "Tori",
-            password: "tori123",
-            wordCoins: 200,
-            syllableCoins: 120,
-            buildWordCoins: 60,
-            createdAt: new Date().toISOString(),
-            role: "user"
+    // Обновляем структуру существующих пользователей
+    for (const key in users) {
+        if (users[key].wordCoins === undefined) {
+            users[key].wordCoins = users[key].coins || 0;
+            updated = true;
         }
-    };
+        if (users[key].syllableCoins === undefined) {
+            users[key].syllableCoins = 0;
+            updated = true;
+        }
+        if (users[key].buildWordCoins === undefined) {
+            users[key].buildWordCoins = 0;
+            updated = true;
+        }
+        if (users[key].coins !== undefined) {
+            delete users[key].coins;
+            updated = true;
+        }
+    }
     
-    await saveUsersToCloud(CLOUD_USERS_CACHE);
-    return CLOUD_USERS_CACHE;
+    if (updated) {
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+        console.log("✅ База данных пользователей обновлена");
+    }
+    return users;
 }
 
 function getAllUsers() {
-    return CLOUD_USERS_CACHE || {};
+    const users = localStorage.getItem(USERS_STORAGE_KEY);
+    return users ? JSON.parse(users) : initUsersDatabase();
 }
 
-async function saveAllUsers(users) {
-    console.log("💾 Сохранение пользователей в облако...");
-    CLOUD_USERS_CACHE = users;
-    const result = await saveUsersToCloud(users);
-    if (result) {
-        console.log("✅ Пользователи сохранены в облако");
-        // Сохраняем локальный бэкап
-        localStorage.setItem('japanese_users_local_backup', JSON.stringify(users));
-    } else {
-        console.error("❌ Ошибка сохранения в облако");
-    }
+function saveAllUsers(users) {
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
 }
 
 function getUser(username) {
@@ -89,34 +105,32 @@ function getUserBuildWordCoins(username) {
     return user ? user.buildWordCoins : 0;
 }
 
-async function addWordCoins(username, amount) {
+function addWordCoins(username, amount) {
     const users = getAllUsers();
     if (!users[username]) return { success: false, message: "Пользователь не найден" };
     users[username].wordCoins = (users[username].wordCoins || 0) + amount;
-    await saveAllUsers(users);
+    saveAllUsers(users);
     return { success: true, newCoins: users[username].wordCoins };
 }
 
-async function addSyllableCoins(username, amount) {
+function addSyllableCoins(username, amount) {
     const users = getAllUsers();
     if (!users[username]) return { success: false, message: "Пользователь не найден" };
     users[username].syllableCoins = (users[username].syllableCoins || 0) + amount;
-    await saveAllUsers(users);
+    saveAllUsers(users);
     return { success: true, newCoins: users[username].syllableCoins };
 }
 
-async function addBuildWordCoins(username, amount) {
+function addBuildWordCoins(username, amount) {
     const users = getAllUsers();
     if (!users[username]) return { success: false, message: "Пользователь не найден" };
     users[username].buildWordCoins = (users[username].buildWordCoins || 0) + amount;
-    await saveAllUsers(users);
+    saveAllUsers(users);
     return { success: true, newCoins: users[username].buildWordCoins };
 }
 
-async function createUser(username, password, email = "") {
-    console.log("🆕 Создание пользователя:", username);
-    
-    let users = getAllUsers();
+function createUser(username, password, email = "") {
+    const users = getAllUsers();
     
     if (users[username]) {
         return { success: false, message: "Пользователь уже существует" };
@@ -139,12 +153,11 @@ async function createUser(username, password, email = "") {
         role: "user"
     };
     
-    await saveAllUsers(users);
-    console.log("✅ Пользователь создан:", username);
+    saveAllUsers(users);
     return { success: true, message: "Пользователь создан", user: users[username] };
 }
 
-async function authenticateUser(username, password) {
+function authenticateUser(username, password) {
     const user = getUser(username);
     if (!user) {
         return { success: false, message: "Пользователь не найден" };
@@ -166,20 +179,7 @@ async function authenticateUser(username, password) {
     };
 }
 
-// Запускаем инициализацию
-initUsersDatabase().then(() => {
-    console.log("📚 Облачная база данных пользователей загружена");
-    console.log("👥 Пользователей в системе:", Object.keys(getAllUsers()).length);
-});
+initUsersDatabase();
 
-// Экспорт для глобального доступа
-window.getAllUsers = getAllUsers;
-window.getUser = getUser;
-window.getUserWordCoins = getUserWordCoins;
-window.getUserSyllableCoins = getUserSyllableCoins;
-window.getUserBuildWordCoins = getUserBuildWordCoins;
-window.addWordCoins = addWordCoins;
-window.addSyllableCoins = addSyllableCoins;
-window.addBuildWordCoins = addBuildWordCoins;
-window.createUser = createUser;
-window.authenticateUser = authenticateUser;
+console.log("📚 Локальная база данных пользователей загружена");
+console.log("👥 Пользователи:", Object.keys(getAllUsers()).join(", "));
