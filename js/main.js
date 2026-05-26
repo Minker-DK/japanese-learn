@@ -57,13 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Вход (АСИНХРОННЫЙ)
+    // Вход
     const loginBtn = document.getElementById('loginBtn');
     if (loginBtn) {
-        loginBtn.addEventListener('click', async () => {
+        loginBtn.addEventListener('click', () => {
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
-            const result = await loginUser(username, password);
+            const result = loginUser(username, password);
             const msgDiv = document.getElementById('loginMessage');
             msgDiv.textContent = result.message;
             msgDiv.className = `auth-message ${result.success ? 'success' : 'error'}`;
@@ -83,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Регистрация (АСИНХРОННАЯ)
+    // Регистрация
     const registerBtn = document.getElementById('registerBtn');
     if (registerBtn) {
-        registerBtn.addEventListener('click', async () => {
+        registerBtn.addEventListener('click', () => {
             const username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value;
             const confirm = document.getElementById('regConfirmPassword').value;
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            const result = await registerUser(username, password);
+            const result = registerUser(username, password);
             const msgDiv = document.getElementById('registerMessage');
             msgDiv.textContent = result.message;
             msgDiv.className = `auth-message ${result.success ? 'success' : 'error'}`;
