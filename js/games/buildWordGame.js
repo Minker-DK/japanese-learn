@@ -11,15 +11,13 @@
     let buildWordCanPlay = true;
     let buildWordTimeoutId = null;
     
-    const BUILD_WORD_REWARD = 1;  // ИЗМЕНЕНО: 5 -> 1
+    const BUILD_WORD_REWARD = 1;
     
-    // Функции
     function updateBuildWordCoinsDisplay() {
         const currentUser = getCurrentUser();
         const buildWordCoinsAmount = document.getElementById('buildWordCoinsAmount');
         if (currentUser && buildWordCoinsAmount) {
-            const coins = getUserBuildWordCoins ? getUserBuildWordCoins(currentUser.username) : 0;
-            buildWordCoinsAmount.textContent = coins;
+            buildWordCoinsAmount.textContent = getUserBuildWordCoins(currentUser.username);
         } else if (buildWordCoinsAmount) {
             buildWordCoinsAmount.textContent = '0';
         }
@@ -28,10 +26,14 @@
     function addBuildWordCoinsToCurrentUser(amount) {
         const currentUser = getCurrentUser();
         if (!currentUser) return false;
+        
         if (typeof addBuildWordCoins === 'function') {
             const result = addBuildWordCoins(currentUser.username, amount);
             if (result.success) {
                 updateBuildWordCoinsDisplay();
+                if (typeof updatePanelCoinsDisplay === 'function') updatePanelCoinsDisplay();
+                if (typeof refreshLeaders === 'function') refreshLeaders();
+                
                 const coinsCounter = document.getElementById('buildWordCoinsCounter');
                 if (coinsCounter) {
                     coinsCounter.classList.add('coin-gain');
@@ -43,7 +45,6 @@
         return false;
     }
     
-    // Обновить UI авторизации для контейнера buildWord
     function updateBuildWordAuthUI() {
         const currentUser = getCurrentUser();
         const buildWordUserIcon = document.getElementById('buildWordUserIcon');
@@ -151,7 +152,6 @@
                 buildWordCanPlay = false;
                 addBuildWordCoinsToCurrentUser(BUILD_WORD_REWARD);
                 
-                // Убираем сообщение о победе, просто начисляем монеты и переходим к следующему слову
                 document.querySelectorAll('.buildword-btn').forEach(btn => {
                     btn.disabled = true;
                     btn.classList.add('disabled');
@@ -159,7 +159,7 @@
                 
                 buildWordTimeoutId = setTimeout(() => {
                     loadNewBuildWord();
-                }, 800);  // Уменьшил задержку до 0.8 секунд
+                }, 800);
             } else {
                 generateBuildButtons();
                 setTimeout(() => {
@@ -182,7 +182,6 @@
                 btn.classList.add('disabled');
             });
             
-            // Показываем сообщение об ошибке (оставляем, только правильное слово)
             const buildWordButtons = document.getElementById('buildWordButtons');
             const message = document.createElement('div');
             message.className = 'buildword-message error';
@@ -201,7 +200,6 @@
         if (buildWordTimeoutId) clearTimeout(buildWordTimeoutId);
         buildWordCanPlay = true;
         
-        // Удаляем старые сообщения
         const oldMessage = document.querySelector('.buildword-message');
         if (oldMessage) oldMessage.remove();
         
@@ -254,14 +252,12 @@
         loadNewBuildWord();
     }
     
-    // Регистрируем в window
     window.showBuildWordContainer = showBuildWordContainer;
     window.updateBuildWordCoinsDisplay = updateBuildWordCoinsDisplay;
     window.resetBuildWordGame = resetBuildWordGame;
     window.loadNewBuildWord = loadNewBuildWord;
     window.updateBuildWordAuthUI = updateBuildWordAuthUI;
     
-    // Инициализация обработчиков для иконок
     function initBuildWordHandlers() {
         const buildWordUserIcon = document.getElementById('buildWordUserIcon');
         const buildWordAlphabetIcon = document.getElementById('buildWordAlphabetIcon');
@@ -295,7 +291,6 @@
         }
     }
     
-    // Переопределяем updateUIForAuth для синхронизации с buildWord
     if (typeof window.updateUIForAuth === 'function') {
         const originalUpdateUIForAuth = window.updateUIForAuth;
         window.updateUIForAuth = function() {
