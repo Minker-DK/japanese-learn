@@ -1,0 +1,38 @@
+/* ============================================ */
+/* ИГРА "УГАДАЙ СЛОГ" */
+/* ============================================ */
+
+.syllable-char {
+    font-size: 80px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: #2c3e6e;
+    font-family: 'Noto Sans CJK JP', monospace;
+}
+
+.back-mode-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back-mode-btn:hover {
+    background: #5a67d8;
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    .syllable-char {
+        font-size: 60px;
+    }
+}

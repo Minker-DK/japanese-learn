@@ -1,0 +1,147 @@
+/* ============================================ */
+/* ПАНЕЛЬ ЛИДЕРОВ */
+/* ============================================ */
+
+.main-wrapper {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.leaders-panel {
+    width: 250px;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+
+.leaders-title {
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #667eea;
+}
+
+.leaders-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.leaders-tab {
+    flex: 1;
+    padding: 8px 5px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #666;
+}
+
+.leaders-tab:hover {
+    background: #e9ecef;
+}
+
+.leaders-tab.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: #667eea;
+}
+
+.leaders-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.leader-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.leader-rank {
+    width: 30px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.leader-name {
+    flex: 1;
+    font-weight: 500;
+    color: #333;
+}
+
+.leader-coins {
+    font-weight: bold;
+    color: #FFD700;  /* Золотой цвет */
+    text-shadow: 0 0 2px #000000, 0 0 2px #000000, 0 0 1px #000000;  /* Чёрная обводка */
+    background: none;
+}
+
+.leader-item.top-1 {
+    background: linear-gradient(135deg, #FFF8E1, #FFE082);
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.leader-item.top-2 {
+    background: #F5F5F5;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.leader-item.top-3 {
+    background: #FFF8F0;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.leader-medal {
+    width: 24px;
+    text-align: center;
+}
+
+.empty-leaders {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* Адаптация для телефонов */
+@media (max-width: 800px) {
+    .main-wrapper {
+        flex-direction: column;
+    }
+    
+    .leaders-panel {
+        width: 100%;
+        order: 2;
+    }
+    
+    .main-content {
+        order: 1;
+    }
+    
+    .leaders-list {
+        max-height: 200px;
+    }
+}

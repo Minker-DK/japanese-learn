@@ -1,0 +1,102 @@
+/* ============================================ */
+/* ДОПОЛНИТЕЛЬНЫЕ АНИМАЦИИ И МЕДИА-ЗАПРОСЫ */
+/* ============================================ */
+
+/* Анимации уже в main.css, здесь только дополнительные */
+
+/* Планшеты - дополнительные настройки */
+@media (min-width: 601px) and (max-width: 900px) {
+    .alphabet-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .themes-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .current-theme {
+        font-size: 11px;
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 900px;
+    }
+    
+    #japaneseWord {
+        font-size: 72px;
+    }
+    
+    .option-btn {
+        font-size: 22px;
+        padding: 20px 12px;
+    }
+}
+
+/* Альбомная ориентация на телефонах */
+@media (max-width: 800px) and (orientation: landscape) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    
+    #japaneseWord {
+        font-size: 32px;
+    }
+    
+    .reading {
+        font-size: 16px;
+        min-height: 35px;
+    }
+    
+    .option-btn {
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+    
+    .coins-counter {
+        top: 10px;
+        left: 10px;
+        padding: 3px 10px;
+    }
+    
+    .current-theme {
+        top: 10px;
+        font-size: 9px;
+    }
+    
+    .user-icon, .alphabet-icon {
+        width: 35px;
+        height: 35px;
+        top: 10px;
+    }
+    
+    .user-icon {
+        right: 55px;
+    }
+    
+    .alphabet-icon {
+        right: 10px;
+    }
+}
+
+/* Для экранов с высокой плотностью пикселей */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .container {
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+    
+    .option-btn {
+        border-width: 2px;
+    }
+}
+
+/* Тёмная тема (если пользователь включил) */
+@media (prefers-color-scheme: dark) {
+    /* Можно добавить тёмную тему позже */
+}

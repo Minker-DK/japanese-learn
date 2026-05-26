@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изучаем японские слова - ひらがな & カタカナ</title>
+    
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/syllable.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/buildword.css">
+    <link rel="stylesheet" href="css/leaders.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Панель лидеров слева -->
+        <div class="leaders-panel">
+            <h3 class="leaders-title">🏆 Лидеры</h3>
+            <div class="leaders-tabs">
+                <button class="leaders-tab active" data-leader="words">📖 Слова</button>
+                <button class="leaders-tab" data-leader="syllables">🔤 Слоги</button>
+                <button class="leaders-tab" data-leader="buildword">📝 Составь</button>
+            </div>
+            <div id="leadersList" class="leaders-list">
+                <div class="leader-item">Загрузка...</div>
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Навигация -->
+            <div class="nav-bar">
+                <button id="mainGameBtn" class="nav-btn">🎮 Основная игра</button>
+                <button id="syllableGameBtn" class="nav-btn">🔤 Угадай слог</button>
+                <button id="buildWordGameBtn" class="nav-btn active">📝 Составь слово</button>
+            </div>
+
+            <!-- Меню выбора темы для основной игры -->
+            <div class="container theme-menu" id="wordThemeMenu" style="display: none;">
+                <div class="theme-header">
+                    <h2 class="theme-title">🎮 Выберите тему слов</h2>
+                    <button id="startWordGameBtn" class="start-game-btn">▶ Начать игру</button>
+                </div>
+                <div class="themes-grid" id="wordThemesGrid"></div>
+                <div class="theme-info">
+                    <span class="selected-label">Выбрана тема:</span>
+                    <span id="selectedThemeName" class="selected-theme-name">Все слова</span>
+                </div>
+            </div>
+
+            <!-- Основная игра (слова) -->
+            <div class="container" id="gameContainer" style="display: none;">
+                <div class="coins-counter" id="coinsCounter"><span id="coinsAmount">0</span></div>
+                <div class="user-icon" id="userIcon"><span class="icon-text-user">👤</span></div>
+                <div class="alphabet-icon" id="alphabetIcon"><span class="icon-text">あ</span></div>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <span id="usernameDisplay"></span>
+                    <button id="logoutBtn" class="logout-btn">Выйти</button>
+                </div>
+                <div class="current-theme" id="currentTheme">🎲 Все слова</div>
+                <h1 id="japaneseWord">Загрузка...</h1>
+                <div id="reading" class="reading"></div>
+                <hr class="divider">
+                <div class="options-container" id="optionsContainer">
+                    <button class="option-btn">---</button>
+                    <button class="option-btn">---</button>
+                    <button class="option-btn">---</button>
+                    <button class="option-btn">---</button>
+                </div>
+            </div>
+
+            <!-- Меню выбора режима для слогов -->
+            <div class="container mode-menu" id="modeMenu" style="display: none;">
+                <div class="mode-header">
+                    <h2 class="mode-title">🔤 Выберите режим игры</h2>
+                </div>
+                <div class="modes-grid">
+                    <button id="modeAllBtn" class="mode-card">
+                        <div class="mode-icon">🎲</div>
+                        <div class="mode-name">Все слоги</div>
+                        <div class="mode-desc">Хирагана + Катакана</div>
+                    </button>
+                    <button id="modeHiraganaBtn" class="mode-card">
+                        <div class="mode-icon">ひ</div>
+                        <div class="mode-name">Хирагана</div>
+                        <div class="mode-desc">Только хирагана</div>
+                    </button>
+                    <button id="modeKatakanaBtn" class="mode-card">
+                        <div class="mode-icon">カ</div>
+                        <div class="mode-name">Катакана</div>
+                        <div class="mode-desc">Только катакана</div>
+                    </button>
+                </div>
+                <button id="closeModeMenu" class="close-mode-btn">✕ Отмена</button>
+            </div>
+
+            <!-- Игра "Угадай слог" -->
+            <div class="container" id="syllableContainer" style="display: none;">
+                <div class="coins-counter" id="syllableCoinsCounter"><span id="syllableCoinsAmount">0</span></div>
+                <div class="user-icon" id="syllableUserIcon"><span class="icon-text-user">👤</span></div>
+                <div class="alphabet-icon" id="syllableAlphabetIcon"><span class="icon-text">あ</span></div>
+                <div class="user-info" id="syllableUserInfo" style="display: none;">
+                    <span id="syllableUsernameDisplay"></span>
+                    <button id="syllableLogoutBtn" class="logout-btn">Выйти</button>
+                </div>
+                <div class="current-theme" id="syllableModeDisplay">Все слоги</div>
+                <h1 id="syllableChar" class="syllable-char">あ</h1>
+                <hr class="divider">
+                <div class="options-container" id="syllableOptionsContainer">
+                    <button class="option-btn">---</button>
+                    <button class="option-btn">---</button>
+                    <button class="option-btn">---</button>
+                    <button class="option-btn">---</button>
+                </div>
+            </div>
+
+            <!-- Игра "Составление слов" -->
+            <div class="container" id="buildWordContainer" style="display: block;">
+                <div class="coins-counter" id="buildWordCoinsCounter"><span id="buildWordCoinsAmount">0</span></div>
+                <div class="user-icon" id="buildWordUserIcon"><span class="icon-text-user">👤</span></div>
+                <div class="alphabet-icon" id="buildWordAlphabetIcon"><span class="icon-text">あ</span></div>
+                <div class="user-info" id="buildWordUserInfo" style="display: none;">
+                    <span id="buildWordUsernameDisplay"></span>
+                    <button id="buildWordLogoutBtn" class="logout-btn">Выйти</button>
+                </div>
+                
+                <h2 class="buildword-question">Составьте слово:</h2>
+                <div class="buildword-russian" id="buildWordRussian">загрузка...</div>
+                
+                <div class="buildword-slots" id="buildWordSlots"></div>
+                
+                <div class="buildword-buttons" id="buildWordButtons"></div>
+                
+                <div class="buildword-progress" id="buildWordProgress">
+                    Прогресс: <span id="buildWordProgressCount">0</span> / <span id="buildWordTotalCount">0</span>
+                </div>
+                
+                <button id="resetBuildWordGame" class="reset-buildword-btn">🔄 Новое слово</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="authModal" class="modal"><div class="modal-content auth-modal">
+        <div class="modal-header"><h2 id="authTitle">Вход в аккаунт</h2><span class="close-btn" id="closeAuthModal">&times;</span></div>
+        <div class="auth-tabs"><button class="auth-tab-btn active" data-auth="login">Вход</button><button class="auth-tab-btn" data-auth="register">Регистрация</button></div>
+        <div id="loginForm" class="auth-form active">
+            <div class="form-group"><label for="loginUsername">Логин</label><input type="text" id="loginUsername" placeholder="Введите логин"></div>
+            <div class="form-group"><label for="loginPassword">Пароль</label><input type="password" id="loginPassword" placeholder="Введите пароль"></div>
+            <button id="loginBtn" class="auth-submit-btn">Войти</button>
+            <div id="loginMessage" class="auth-message"></div>
+        </div>
+        <div id="registerForm" class="auth-form">
+            <div class="form-group"><label for="regUsername">Логин</label><input type="text" id="regUsername" placeholder="Придумайте логин"></div>
+            <div class="form-group"><label for="regPassword">Пароль</label><input type="password" id="regPassword" placeholder="Придумайте пароль"></div>
+            <div class="form-group"><label for="regConfirmPassword">Подтвердите пароль</label><input type="password" id="regConfirmPassword" placeholder="Повторите пароль"></div>
+            <button id="registerBtn" class="auth-submit-btn">Зарегистрироваться</button>
+            <div id="registerMessage" class="auth-message"></div>
+        </div>
+    </div></div>
+
+    <div id="alphabetModal" class="modal"><div class="modal-content">
+        <div class="modal-header"><h2>Японский алфавит</h2><span class="close-btn" id="closeModal">&times;</span></div>
+        <div class="tabs"><button class="tab-btn active" data-tab="hiragana">ひらがな</button><button class="tab-btn" data-tab="katakana">カタカナ</button></div>
+        <div id="hiraganaTab" class="tab-content active"><div class="alphabet-grid" id="hiraganaGrid"></div></div>
+        <div id="katakanaTab" class="tab-content"><div class="alphabet-grid" id="katakanaGrid"></div></div>
+    </div></div>
+
+    <!-- Data -->
+    <script src="data/words.js"></script>
+    <script src="data/hiragana.js"></script>
+    <script src="data/katakana.js"></script>
+    <script src="data/users.js"></script>
+    <script src="data/buildWords.js"></script>
+    
+    <!-- Core -->
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/core/coins.js"></script>
+    
+    <!-- Games -->
+    <script src="js/games/wordGame.js"></script>
+    <script src="js/games/syllableGame.js"></script>
+    <script src="js/games/buildWordGame.js"></script>
+    
+    <!-- UI -->
+    <script src="js/ui/modals.js"></script>
+    <script src="js/ui/alphabet.js"></script>
+    <script src="js/ui/themes.js"></script>
+    <script src="js/ui/navigation.js"></script>
+    <script src="js/ui/leaders.js"></script>
+    
+    <!-- Main -->
+    <script src="js/main.js"></script>
+</body>
+</html>
