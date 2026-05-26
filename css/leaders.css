@@ -1,14 +1,23 @@
 /* ============================================ */
-/* ПАНЕЛЬ ЛИДЕРОВ */
+/* ЛЕВАЯ ПАНЕЛЬ (ПОЛЬЗОВАТЕЛЬ + ЛИДЕРЫ) */
 /* ============================================ */
 
 .main-wrapper {
     display: flex;
     gap: 20px;
-    max-width: 1200px;
+    max-width: 1400px;
     width: 100%;
     margin: 0 auto;
     align-items: flex-start;
+    flex-direction: row;  /* Явно указываем row для ПК */
+}
+
+.left-panel {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .main-content {
@@ -16,21 +25,118 @@
     min-width: 0;
 }
 
-.leaders-panel {
-    width: 250px;
+/* Панель пользователя */
+.user-panel {
     background: white;
     border-radius: 20px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-    flex-shrink: 0;
+}
+
+.user-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #667eea;
+}
+
+.user-panel-icon {
+    font-size: 24px;
+}
+
+.user-panel-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.user-panel-content {
+    text-align: center;
+}
+
+.panel-login-btn {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.panel-login-btn:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+.panel-username {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 12px;
+    padding: 5px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.panel-coins {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.panel-coin-item {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    flex: 1;
+    text-align: center;
+}
+
+.panel-coin-item span {
+    color: #FFD700;
+    text-shadow: 0 0 2px #000;
+}
+
+.panel-logout-btn {
+    width: 100%;
+    padding: 8px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.panel-logout-btn:hover {
+    background: #d32f2f;
+}
+
+/* Панель лидеров */
+.leaders-panel {
+    background: white;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
 }
 
 .leaders-title {
-    font-size: 20px;
+    font-size: 18px;
     color: #333;
     text-align: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
     border-bottom: 2px solid #667eea;
 }
 
@@ -42,12 +148,12 @@
 
 .leaders-tab {
     flex: 1;
-    padding: 8px 5px;
-    font-size: 12px;
+    padding: 6px 5px;
+    font-size: 11px;
     font-weight: 600;
     background: #f8f9fa;
     border: 1px solid #dee2e6;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     color: #666;
@@ -64,7 +170,7 @@
 }
 
 .leaders-list {
-    max-height: 400px;
+    max-height: 350px;
     overflow-y: auto;
 }
 
@@ -72,13 +178,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 12px;
+    padding: 8px 10px;
     border-bottom: 1px solid #f0f0f0;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .leader-rank {
-    width: 30px;
+    width: 25px;
     font-weight: bold;
     color: #667eea;
 }
@@ -87,43 +193,45 @@
     flex: 1;
     font-weight: 500;
     color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .leader-coins {
     font-weight: bold;
-    color: #FFD700;  /* Золотой цвет */
-    text-shadow: 0 0 2px #000000, 0 0 2px #000000, 0 0 1px #000000;  /* Чёрная обводка */
-    background: none;
+    color: #FFD700;
+    text-shadow: 0 0 2px #000;
+}
+
+.leader-medal {
+    width: 20px;
+    text-align: center;
 }
 
 .leader-item.top-1 {
     background: linear-gradient(135deg, #FFF8E1, #FFE082);
-    border-radius: 10px;
-    margin-bottom: 5px;
+    border-radius: 8px;
+    margin-bottom: 3px;
 }
 
 .leader-item.top-2 {
     background: #F5F5F5;
-    border-radius: 10px;
-    margin-bottom: 5px;
+    border-radius: 8px;
+    margin-bottom: 3px;
 }
 
 .leader-item.top-3 {
     background: #FFF8F0;
-    border-radius: 10px;
-    margin-bottom: 5px;
-}
-
-.leader-medal {
-    width: 24px;
-    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 3px;
 }
 
 .empty-leaders {
     text-align: center;
     color: #999;
     padding: 20px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 /* Адаптация для телефонов */
@@ -132,16 +240,36 @@
         flex-direction: column;
     }
     
-    .leaders-panel {
+    .left-panel {
         width: 100%;
-        order: 2;
+        flex-direction: row;
+        gap: 15px;
     }
     
-    .main-content {
-        order: 1;
+    .user-panel {
+        flex: 1;
     }
     
-    .leaders-list {
-        max-height: 200px;
+    .leaders-panel {
+        flex: 2;
+    }
+    
+    .panel-coins {
+        gap: 5px;
+    }
+    
+    .panel-coin-item {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 500px) {
+    .left-panel {
+        flex-direction: column;
+    }
+    
+    .panel-coins {
+        justify-content: center;
     }
 }
