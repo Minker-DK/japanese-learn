@@ -67,17 +67,20 @@
 
 .theme-icon {
     font-size: 32px;
+    display: block;
 }
 
 .theme-name {
     font-size: 14px;
     font-weight: 600;
     margin-top: 5px;
+    display: block;
 }
 
 .theme-count {
     font-size: 11px;
     opacity: 0.7;
+    display: block;
 }
 
 .theme-info {
@@ -154,12 +157,14 @@
 .mode-icon {
     font-size: 60px;
     margin-bottom: 15px;
+    display: block;
 }
 
 .mode-name {
     font-size: 22px;
     font-weight: bold;
     margin-bottom: 8px;
+    display: block;
     color: #333;
 }
 
@@ -170,6 +175,7 @@
 .mode-desc {
     font-size: 14px;
     color: #888;
+    display: block;
 }
 
 .mode-card.selected .mode-desc {
